@@ -59,3 +59,13 @@ void Dump(HashTable* table)
         Dump(table->data + i);
     }
 }
+
+void PrintBucketSizes(HashTable* table, FILE* file)
+{
+    for (size_t i = 0; i < table->size - 1; ++i)
+    {
+        fprintf(file, "%lu\n", table->data[i].size);
+    }
+
+    fprintf(file, "%lu\n", table->data[table->size - 1].size);
+}

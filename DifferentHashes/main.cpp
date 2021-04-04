@@ -1,8 +1,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "hashtable.h"
-#include "dictionary.cpp"
+#include "../HashTable/hashtable.h"
+#include "../HashTable/dictionary.cpp"
 
 const size_t hashtable_size  = 4079;
 const char*  dictionary_file = "../dictionary.txt";

@@ -99,37 +99,37 @@ void TestDifferentHashes()
     Dictionary dict = {};
     GetDictionary(&dict, dictionary_file);
 
-    // HashTable table1 = {};
-    // HashTable table2 = {};
-    // HashTable table3 = {};
-    // HashTable table4 = {};
-    // HashTable table5 = {};
+    HashTable table1 = {};
+    HashTable table2 = {};
+    HashTable table3 = {};
+    HashTable table4 = {};
+    HashTable table5 = {};
     HashTable table6 = {};
 
-    // Construct(&table1, hashtable_size, Hash1, Cmp);
-    // Construct(&table2, hashtable_size, Hash2, Cmp);
-    // Construct(&table3, hashtable_size, Hash3, Cmp);
-    // Construct(&table4, hashtable_size, Hash4, Cmp);
-    // Construct(&table5, hashtable_size, Hash5, Cmp);
+    Construct(&table1, hashtable_size, Hash1, Cmp);
+    Construct(&table2, hashtable_size, Hash2, Cmp);
+    Construct(&table3, hashtable_size, Hash3, Cmp);
+    Construct(&table4, hashtable_size, Hash4, Cmp);
+    Construct(&table5, hashtable_size, Hash5, Cmp);
     Construct(&table6, hashtable_size, Hash6, Cmp);
 
     for (size_t i = 0; i < GetSize(&dict); ++i)
     {
-        // Insert(&table1, dict.english[i], dict.russian[i]);
-        // Insert(&table2, dict.english[i], dict.russian[i]);
-        // Insert(&table3, dict.english[i], dict.russian[i]);
-        // Insert(&table4, dict.english[i], dict.russian[i]);
-        // Insert(&table5, dict.english[i], dict.russian[i]);
+        Insert(&table1, dict.english[i], dict.russian[i]);
+        Insert(&table2, dict.english[i], dict.russian[i]);
+        Insert(&table3, dict.english[i], dict.russian[i]);
+        Insert(&table4, dict.english[i], dict.russian[i]);
+        Insert(&table5, dict.english[i], dict.russian[i]);
         Insert(&table6, dict.english[i], dict.russian[i]);
     }
 
     FILE* file = fopen("sizes.csv", "w");
 
-    // PrintBucketSizes(&table1, file);
-    // PrintBucketSizes(&table2, file);
-    // PrintBucketSizes(&table3, file);
-    // PrintBucketSizes(&table4, file);
-    // PrintBucketSizes(&table5, file);
+    PrintBucketSizes(&table1, file);
+    PrintBucketSizes(&table2, file);
+    PrintBucketSizes(&table3, file);
+    PrintBucketSizes(&table4, file);
+    PrintBucketSizes(&table5, file);
     PrintBucketSizes(&table6, file);
 
     fclose(file);

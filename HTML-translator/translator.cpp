@@ -19,7 +19,7 @@ size_t Hash(char* const* elem)
 
             if (bit)
             {
-                hash = hash xor crc64_const;
+                hash = hash xor crc32_const;
             }
         }
 
@@ -41,19 +41,31 @@ char* GetEndOfWord(char* buffer)
 {
     assert(buffer);
 
-    size_t index = 0;
-
-    while (buffer[index] != '\0')
+    while (*buffer != '\0')
     {
-        if (!(isalpha(buffer[index])))
+        if (!(isalpha(*buffer)) && *buffer != '-')
         {
             break;
         }
 
-        index++;
+        buffer++;
     }
 
-    return buffer + index;
+    return buffer;
+}
+
+void PutHTMLChar(char symbol, FILE* output)
+{
+    assert(output);
+
+    if (symbol == '\n')
+    {
+        fprintf(output, "</p>\n</p>");
+    }
+    else
+    {
+        fputc(symbol, output);
+    }
 }
 
 void WriteToHTMLFile(char* buffer, FILE* output, HashTable* table)
@@ -65,7 +77,7 @@ void WriteToHTMLFile(char* buffer, FILE* output, HashTable* table)
     {
         if (!isalpha(*buffer))
         {
-            fputc(*buffer, output);
+            // PutHTMLChar(*buffer, output);
             buffer++;
             continue;
         }
@@ -96,14 +108,14 @@ void WriteToHTMLFile(char* buffer, FILE* output, HashTable* table)
             }
         }
 
-        if (translated_word != nullptr)
-        {
-            fprintf(output, "<span title=\"%s\">%s</span>", translated_word, buffer);
-        }
-        else
-        {
-            fprintf(output, "%s", buffer);
-        }
+        // if (translated_word != nullptr)
+        // {
+        //     fprintf(output, "<span title=\"%s\">%s</span>", translated_word, buffer);
+        // }
+        // else
+        // {
+        //     fprintf(output, "%s", buffer);
+        // }
 
         *end_of_word = symbol;
         buffer       = end_of_word;
@@ -122,32 +134,26 @@ void TranslateToHTML(FILE* input, FILE* output, HashTable* table)
 
     fread(buffer, sizeof(char), file_size, input);
 
-    fprintf(output, "<html>\n<body>\n<pre>\n");
+    fprintf(output, "<html>\n<body>\n<h1>Translator</h1>\n<p>");
 
     WriteToHTMLFile(buffer, output, table);
 
-    fprintf(output, "\n</pre>\n</body>\n</html>\n");
+    fprintf(output, "\n</p>\n</body>\n</html>\n");
 }
 
 void Translate(FILE* input)
 {
     assert(input);
 
-    Dictionary dict = {};
-    GetDictionary(&dict, dictionary_file);
     HashTable table = {};
     Construct(&table, hashtable_size, Hash, Cmp);
 
-    for (size_t i = 0; i < dict.num_words; ++i)
-    {
-        Insert(&table, dict.english[i], dict.russian[i]);
-    }
+    FillHashTable(&table, dictionary_file);
 
     FILE* output = fopen(html_file, "w");
 
     TranslateToHTML(input, output, &table);
 
     fclose(output);
-    DestructDictionary(&dict);
-    Destruct(&table);
+    DestructWithBuffer(&table);
 }

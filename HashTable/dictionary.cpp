@@ -106,6 +106,54 @@ void GetDictionary(Dictionary* dict, const char* file)
     GetBuffer(dict, input);
 }
 
+void FillHashTableWithBuffer(HashTable* table, Dictionary* dict)
+{
+    assert(table);
+    assert(dict);
+
+    char* cur_symbol   = dict->buffer;
+    char* english_word = nullptr;
+    char* russian_word = nullptr;
+
+
+    while (*cur_symbol != '\0' && cur_symbol != nullptr)
+    {
+        english_word = cur_symbol;
+        cur_symbol  = strchr(cur_symbol, ':');
+        *cur_symbol = '\0';
+        cur_symbol++;
+
+        russian_word = cur_symbol;
+        cur_symbol = strchr(cur_symbol, '\n');
+        *cur_symbol = '\0';
+        cur_symbol++;
+        Insert(table, english_word, russian_word);
+    }
+}
+
+void FillHashTable(HashTable* table, const char* file)
+{
+    assert(table);
+    assert(file);
+
+    FILE* input = fopen(file, "r");
+    if (input == nullptr)
+    {
+        printf("Can't open file %s\n", file);
+        return;
+    }
+
+    Dictionary dict = {};
+
+    dict.length = GetFileSize(input);
+
+    dict.buffer = (char*)calloc(dict.length, sizeof(char));
+    fread(dict.buffer, sizeof(char), dict.length, input);
+
+    FillHashTableWithBuffer(table, &dict);
+    table->buffer = dict.buffer;
+}
+
 void DestructDictionary(Dictionary* dict)
 {
     assert(dict);

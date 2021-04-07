@@ -397,6 +397,21 @@ automation: автоматизация
 automobile: амер. машина, автомобиль
 autonomous: автономный
 autonomy: автономия
+years: годы
+frustrated: расстроенный
+lives: жизни
+compelled: вынужден
+interminable: бесконечный
+birthday: день рождения
+friends: друзья
+dazzled: ослепленный 
+servants: слуги
+magnificent: великолепный
+solitaire: пасьянс
+dia­mond: алмаз
+proprietor: собственник
+princess: принцесса
+hauteur: высокомерный
 autumn: осень
 aux: [auxiliary] - последовательный канал связи
 auxiliary: вторичный, внешний

@@ -50,6 +50,19 @@ void Destruct(HashTable* table)
     }
 }
 
+void DestructWithBuffer(HashTable* table)
+{
+    assert(table);
+    assert(table->data);
+
+    for (size_t i = 0; i < table->size; ++i)
+    {
+        Destruct(table->data + i);
+    }
+
+    free(table->buffer);
+}
+
 void Dump(HashTable* table)
 {
     printf("table size = %lu\n", table->size);

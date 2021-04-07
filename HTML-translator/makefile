@@ -1,4 +1,4 @@
-options = -Wall -Wextra -pedantic
+options = -Wall -Wextra -pedantic -O3
 
 src = ../HashTable
 
